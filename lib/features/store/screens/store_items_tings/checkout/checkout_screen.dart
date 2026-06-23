@@ -846,18 +846,6 @@ class CCheckoutScreen extends StatelessWidget {
                                                 CRoundedContainer(
                                                   bgColor: CColors.transparent,
 
-                                                  // width:
-                                                  //     checkoutController
-                                                  //             .selectedPaymentMethod
-                                                  //             .value
-                                                  //             .platformName
-                                                  //             .toLowerCase() ==
-                                                  //         "mPesa online"
-                                                  //             .toLowerCase()
-                                                  //     ? CHelperFunctions.screenWidth() *
-                                                  //           .75
-                                                  //     : CHelperFunctions.screenWidth() *
-                                                  //           0.56,
                                                   width:
                                                       CHelperFunctions.screenWidth() *
                                                       .69,
@@ -873,41 +861,6 @@ class CCheckoutScreen extends StatelessWidget {
                                                               checkoutController
                                                                   .customerContactsFieldController,
                                                         )
-                                                      // CCustomIntlPhoneFormField(
-                                                      //     btnTxt:
-                                                      //         'request payment',
-                                                      //     // formTitle:
-                                                      //     //     'please enter customer phone no. below to send payment request',
-                                                      //     fieldWidth: 100.0,
-                                                      //     formTitle:
-                                                      //         'lipa na mpesa express (online)',
-                                                      //     intlPhoneFieldController:
-                                                      //         checkoutController
-                                                      //             .customerContactsFieldController,
-                                                      //     onFormBtnPressed: () async {
-                                                      //       final internetIsConnected =
-                                                      //           await CNetworkManager
-                                                      //               .instance
-                                                      //               .isConnected();
-                                                      //       if (internetIsConnected) {
-                                                      //         checkoutController.initializeMpesaTxn(
-                                                      //           cartController
-                                                      //               .totalCartPrice
-                                                      //               .value,
-                                                      //           checkoutController
-                                                      //               .customerMpesaNumber
-                                                      //               .value,
-                                                      //         );
-                                                      //       } else {
-                                                      //         CPopupSnackBar.warningSnackBar(
-                                                      //           title:
-                                                      //               'internet connection required',
-                                                      //           message:
-                                                      //               'internet connection is required to use lipa na mPesa express!',
-                                                      //         );
-                                                      //       }
-                                                      //     },
-                                                      //   )
                                                       : CustomerDetailsScreen(),
                                                 ),
                                               ],

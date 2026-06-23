@@ -21,6 +21,7 @@ class CLocalNotificationsController extends GetxController {
   @override
   void onInit() async {
     await fetchUserNotifications();
+
     super.onInit();
   }
 
@@ -126,6 +127,39 @@ class CLocalNotificationsController extends GetxController {
       notificationDetails,
       payload: payload,
     );
+  }
+
+  /// -- request notification permissions from user --
+  static Future<void> requestNotificationPermissionsIfNeeded() async {
+    final PermissionStatus status = await Permission.notification.request();
+
+    if (status.isGranted) {
+      // Notifications are allowed
+      if (kDebugMode) {
+        CPopupSnackBar.customToast(
+          message: 'notification permissions granted!',
+          forInternetConnectivityStatus: false,
+        );
+      }
+    } else if (status.isDenied) {
+      // Notifications are denied
+      if (kDebugMode) {
+        CPopupSnackBar.customToast(
+          message: 'notification permissions denied!',
+          forInternetConnectivityStatus: false,
+        );
+      }
+    } else if (status.isPermanentlyDenied) {
+      // Notification permissions permanently denied, open app settings
+      if (kDebugMode) {
+        CPopupSnackBar.customToast(
+          message:
+              'notification permissions permanently denied! opening app settings...',
+          forInternetConnectivityStatus: false,
+        );
+      }
+      await openAppSettings();
+    }
   }
 
   /// -- trigger a scheduled local notification --

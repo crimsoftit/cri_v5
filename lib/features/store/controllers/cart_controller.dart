@@ -204,7 +204,7 @@ class CCartController extends GetxController {
       if (inventoryItem.quantity > 0) {
         if (itemIndex >= 0) {
           if (fromQtyTxtField && qtyValue != '') {
-            if (double.parse(qtyValue!) >= inventoryItem.quantity) {
+            if (double.parse(qtyValue!) > inventoryItem.quantity) {
               CPopupSnackBar.warningSnackBar(
                 title: 'Oh snap!',
                 message: inventoryItem.quantity == 0

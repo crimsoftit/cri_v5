@@ -69,38 +69,9 @@ class CStoreItemWidget extends StatelessWidget {
                     : CColors.rBrown,
               ),
 
-              // Text(
-              //   '${cartItem.itemMetrics == 'units' ? cartItem.availableStockQty.toStringAsFixed(0) : cartItem.availableStockQty} ${CFormatter.formatInventoryMetrics(cartItem.productId)}(s) stocked',
-              // ),
               Text(
                 '${CFormatter.formatItemQtyDisplays(cartItem.availableStockQty, cartItem.itemMetrics)} ${CFormatter.formatItemMetrics(cartItem.itemMetrics, cartItem.availableStockQty)} stocked',
               ),
-
-              // -- item attributes --
-              // Text.rich(
-              //   TextSpan(
-              //     children: [
-              //       TextSpan(
-              //         text: 'usp: ${invItem.unitSellingPrice}; ',
-              //         style: Theme.of(context).textTheme.labelSmall,
-              //       ),
-              //       TextSpan(
-              //         text: 'code: ${invItem.pCode}; ',
-              //         style: Theme.of(context).textTheme.labelSmall,
-              //       ),
-
-              //       // TextSpan(
-              //       //   text: '${cartItem.availableStockQty} stocked ',
-              //       //   style: Theme.of(context).textTheme.labelSmall,
-              //       // ),
-              //       TextSpan(
-              //         text:
-              //             '\nlow-stock alert: ${invItem.calibration == 'units' ? invItem.lowStockNotifierLimit.toStringAsFixed(0) : invItem.lowStockNotifierLimit} ${CFormatter.formatInventoryMetrics(cartItem.productId)}(s)',
-              //         style: Theme.of(context).textTheme.labelSmall,
-              //       ),
-              //     ],
-              //   ),
-              // ),
             ],
           ),
         ),

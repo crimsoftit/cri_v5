@@ -30,6 +30,7 @@ class _CNotificationsScreenState extends State<CNotificationsScreen> {
     //}
     //},
     //);
+    CLocalNotificationsController.requestNotificationPermissionsIfNeeded();
 
     Future.delayed(Duration.zero, () {
       WidgetsBinding.instance.addPostFrameCallback((_) async {

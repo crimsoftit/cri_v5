@@ -293,7 +293,6 @@ class CCheckoutController extends GetxController {
                       payload: jsonEncode(payloadData),
                     );
 
-                    // TODO: -- add notification details to sqflite db --
                     var notificationItem = CNotificationsModel(
                       1,
                       'Restocking is due!',
@@ -537,9 +536,7 @@ class CCheckoutController extends GetxController {
           );
         }
       }
-    } 
-     
-    on FormatException catch (formatException) {
+    } on FormatException catch (formatException) {
       CPopupSnackBar.errorSnackBar(
         title: 'format exception error!!',
         message: formatException.message,
