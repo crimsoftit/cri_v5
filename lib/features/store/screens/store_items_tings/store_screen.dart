@@ -199,16 +199,38 @@ class CStoreScreen extends StatelessWidget {
                 ? Stack(
                     children: [
                       FlutterFloaty(
-                        backgroundColor:
-                            CNetworkManager.instance.hasConnection.value
-                            ? CColors.rBrown
-                            : CColors.darkerGrey,
+                        // backgroundColor:
+                        //     CNetworkManager.instance.hasConnection.value
+                        //     ? CColors.rBrown
+                        //     : CColors.darkerGrey,
+                        backgroundColor: CColors.transparent,
                         borderRadius: 15.0,
 
                         builder: (context) {
                           return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
+                              /// -- button to add inventory item --
+                              FloatingActionButton(
+                                elevation: 1, // -- removes shadow
+                                onPressed: () {
+                                  invController.addInvItemDialogAction(false);
+                                },
+                                backgroundColor:
+                                    CNetworkManager.instance.hasConnection.value
+                                    ? CColors.rBrown
+                                    : CColors.black,
+
+                                foregroundColor: CColors.white,
+                                heroTag: 'add',
+                                child: Icon(
+                                  // Iconsax.scan_barcode,
+                                  Iconsax.add,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
                               invController.inventoryItems.isEmpty
                                   ? SizedBox.shrink()
                                   : Stack(
@@ -232,7 +254,13 @@ class CStoreScreen extends StatelessWidget {
                                             checkoutController
                                                 .handleNavToCheckout();
                                           },
-                                          backgroundColor: CColors.transparent,
+                                          backgroundColor:
+                                              CNetworkManager
+                                                  .instance
+                                                  .hasConnection
+                                                  .value
+                                              ? CColors.rBrown
+                                              : CColors.black,
                                           foregroundColor: Colors.white,
                                           heroTag: 'checkout',
                                           icon: const Icon(
@@ -254,7 +282,7 @@ class CStoreScreen extends StatelessWidget {
                           );
                         },
                         growingFactor: 1.1,
-                        height: 57.0,
+                        height: 125.0,
                         initialX: CHelperFunctions.screenWidth() * .69,
                         initialY: CHelperFunctions.screenHeight() * .72,
                         intrinsicBoundaries: boundaries,
@@ -267,17 +295,17 @@ class CStoreScreen extends StatelessWidget {
                             : CColors.darkerGrey.withValues(
                                 alpha: .4,
                               ),
-                        shadow: BoxShadow(
-                          blurRadius: 3.0,
-                          color: CColors.grey.withValues(
-                            alpha: .1,
-                          ),
-                          offset: const Offset(
-                            0.0,
-                            1.0,
-                          ),
-                          spreadRadius: 1.0,
-                        ),
+                        // shadow: BoxShadow(
+                        //   blurRadius: 3.0,
+                        //   color: CColors.grey.withValues(
+                        //     alpha: .1,
+                        //   ),
+                        //   offset: const Offset(
+                        //     0.0,
+                        //     1.0,
+                        //   ),
+                        //   spreadRadius: 1.0,
+                        // ),
                         shape: BoxShape.rectangle,
                         width: 100.0,
                       ),

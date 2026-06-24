@@ -51,27 +51,26 @@ class CStoreScreenHeader extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 /// -- button to add inventory item --
-                FloatingActionButton(
-                  elevation: 0, // -- removes shadow
-                  onPressed: () {
-                    forStoreScreen
-                        ? invController.addInvItemDialogAction(false)
-                        : CPopupSnackBar.customToast(
-                            forInternetConnectivityStatus: false,
-                            message: 'rada safi...',
-                          );
-                  },
-                  backgroundColor: CColors.transparent,
-                  foregroundColor: isConnectedToInternet
-                      ? CColors.rBrown
-                      : CColors.darkGrey,
-                  heroTag: 'add',
-                  child: Icon(
-                    // Iconsax.scan_barcode,
-                    Iconsax.add,
-                  ),
-                ),
-
+                // FloatingActionButton(
+                //   elevation: 0, // -- removes shadow
+                //   onPressed: () {
+                //     forStoreScreen
+                //         ? invController.addInvItemDialogAction(false)
+                //         : CPopupSnackBar.customToast(
+                //             forInternetConnectivityStatus: false,
+                //             message: 'rada safi...',
+                //           );
+                //   },
+                //   backgroundColor: CColors.transparent,
+                //   foregroundColor: isConnectedToInternet
+                //       ? CColors.rBrown
+                //       : CColors.darkGrey,
+                //   heroTag: 'add',
+                //   child: Icon(
+                //     // Iconsax.scan_barcode,
+                //     Iconsax.add,
+                //   ),
+                // ),
                 forStoreScreen
                     ? invController.unSyncedAppends.isEmpty &&
                               invController.unSyncedUpdates.isEmpty &&

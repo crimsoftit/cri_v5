@@ -971,7 +971,6 @@ class AddUpdateInventoryForm extends StatelessWidget {
                               );
                             }
 
-                            /// -- TODO: logic to update supplier's country code if it's missing --
                             if (contactsController
                                         .fetchSupplierCountryCodeByProductId(
                                           invController.txtSupplierContacts.text
@@ -993,13 +992,6 @@ class AddUpdateInventoryForm extends StatelessWidget {
                                     (_) async {
                                       await contactsController
                                           .fetchMyContacts();
-                                      // if (kDebugMode) {
-                                      //   CPopupSnackBar.successSnackBar(
-                                      //     message:
-                                      //         '${invController.txtSupplierName.toString().toUpperCase()}\'s COUNTRY CODE UPDATED SUCCESSFULLY!!',
-                                      //     title: 'country code update success!',
-                                      //   );
-                                      // }
                                     },
                                   );
                             }

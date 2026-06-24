@@ -259,7 +259,10 @@ class CContactItem extends StatelessWidget {
                           animationDuration: const Duration(
                             milliseconds: 400,
                           ),
-                          elevation: 3,
+                          dividerColor: CColors.rBrown.withValues(
+                            alpha: .2,
+                          ),
+                          elevation: 1,
                           expandedHeaderPadding: EdgeInsets.all(
                             2.0,
                           ),
@@ -294,6 +297,7 @@ class CContactItem extends StatelessWidget {
                                       )
                                     : CColors.lightGrey,
                                 canTapOnHeader: true,
+
                                 highlightColor: CColors.rBrown,
                                 headerBuilder: (context, isExpanded) {
                                   /// -- build alphabetic headers --

@@ -147,11 +147,11 @@ class CCutomLineChart extends StatelessWidget {
               ),
             );
           },
-          interval: dashboardController.peakSalesAmount.value / 2,
+          interval: dashboardController.peakSalesAmount.value / 1.5,
           maxIncluded: true,
           minIncluded: true,
           reservedSize: 40.0,
-          showTitles: true,
+          showTitles: false,
         ),
       ),
       rightTitles: AxisTitles(
