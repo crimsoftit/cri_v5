@@ -16,6 +16,7 @@ class CMenuTile extends StatelessWidget {
     this.onTap,
     required this.title,
     this.subTitle = '',
+    this.subTitleWidget,
     this.titleColor,
     this.titleMaxLines = 1,
     this.titleStyle,
@@ -37,7 +38,7 @@ class CMenuTile extends StatelessWidget {
   final TextStyle? titleStyle;
 
   final void Function()? onTap;
-  final Widget? leadingWidget, trailing;
+  final Widget? leadingWidget, subTitleWidget, trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -46,38 +47,42 @@ class CMenuTile extends StatelessWidget {
       child: CRoundedContainer(
         bgColor: bgColor,
         width: containerWidth,
-        child: ListTile(
-          leading: displayLeadingIcon && !useCustomLeadingWiget
-              ? Icon(
-                  icon,
-                  size: 28.0,
-                  color: iconColor ?? CColors.primaryBrown,
-                )
-              : useCustomLeadingWiget
-              ? leadingWidget
-              : SizedBox.shrink(),
-          title: Padding(
-            padding: EdgeInsets.only(
-              top: titleTopPadding ?? 0,
+        child: Material(
+          color: CColors.transparent,
+          child: ListTile(
+            leading: displayLeadingIcon && !useCustomLeadingWiget
+                ? Icon(
+                    icon,
+                    size: 28.0,
+                    color: iconColor ?? CColors.primaryBrown,
+                  )
+                : useCustomLeadingWiget
+                ? leadingWidget
+                : SizedBox.shrink(),
+            title: Padding(
+              padding: EdgeInsets.only(
+                top: titleTopPadding ?? 0,
+              ),
+              child: SelectableText(
+                title,
+                maxLines: titleMaxLines,
+                style:
+                    titleStyle ??
+                    Theme.of(context).textTheme.titleMedium!.apply(
+                      color: iconColor ?? CColors.rBrown,
+                    ),
+              ),
             ),
-            child: SelectableText(
-              title,
-              maxLines: titleMaxLines,
-              style:
-                  titleStyle ??
-                  Theme.of(context).textTheme.titleMedium!.apply(
-                    color: iconColor ?? CColors.rBrown,
-                  ),
-            ),
+            subtitle: displaySubTitle
+                ? subTitleWidget ??
+                      SelectableText(
+                        subTitle,
+                        style: Theme.of(context).textTheme.labelMedium,
+                      )
+                : SizedBox.shrink(),
+            trailing: displayTrailingWidget ? trailing : SizedBox.shrink(),
+            onTap: onTap,
           ),
-          subtitle: displaySubTitle
-              ? SelectableText(
-                  subTitle,
-                  style: Theme.of(context).textTheme.labelMedium,
-                )
-              : SizedBox.shrink(),
-          trailing: displayTrailingWidget ? trailing : SizedBox.shrink(),
-          onTap: onTap,
         ),
       ),
     );

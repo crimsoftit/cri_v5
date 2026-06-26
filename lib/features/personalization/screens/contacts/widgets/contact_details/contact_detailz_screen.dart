@@ -1,9 +1,11 @@
 import 'package:cri_v5/common/widgets/buttons/icon_buttons/custom_icon_btn.dart';
+import 'package:cri_v5/common/widgets/custom_shapes/containers/rounded_container.dart';
 import 'package:cri_v5/common/widgets/dividers/c_divider.dart';
 import 'package:cri_v5/common/widgets/list_tiles/menu_tile.dart';
 import 'package:cri_v5/common/widgets/shimmers/vert_items_shimmer.dart';
 import 'package:cri_v5/common/widgets/txt_widgets/c_section_headings.dart';
 import 'package:cri_v5/features/personalization/controllers/contacts_controller.dart';
+import 'package:cri_v5/features/personalization/controllers/user_controller.dart';
 import 'package:cri_v5/features/personalization/screens/contacts/widgets/contact_details/widgets/contact_settings_display.dart';
 import 'package:cri_v5/utils/constants/colors.dart';
 import 'package:cri_v5/utils/constants/sizes.dart';
@@ -22,6 +24,11 @@ class CContactDetailsScreen extends StatelessWidget {
     final contactsController = Get.put(CContactsController());
     final isDarkTheme = CHelperFunctions.isDarkMode(context);
 
+    final userController = Get.put(CUserController());
+    final userCurrency = CHelperFunctions.formatCurrency(
+      userController.user.value.currencyCode,
+    );
+
     var contactItem = contactsController.myContacts.firstWhere(
       (element) => element.contactId == Get.arguments,
     );
@@ -33,6 +40,13 @@ class CContactDetailsScreen extends StatelessWidget {
             itemCount: 5,
           );
         }
+
+        /// -- compute contact txns --
+        contactsController.summarizeContactTxns(
+          contactItem.contactName,
+          contactItem.contactPhone,
+          contactItem.contactEmail,
+        );
         return Container(
           color: isDarkTheme ? CColors.transparent : CColors.white,
           child: Scaffold(
@@ -424,6 +438,104 @@ class CContactDetailsScreen extends StatelessWidget {
                       //     Iconsax.arrow_right,
                       //   ),
                       // ),
+                      useCustomLeadingWiget: true,
+                    ),
+
+                    const SizedBox(
+                      height: CSizes.spaceBtnItems / 3.0,
+                    ),
+
+                    // -- txns display --
+                    CMenuTile(
+                      bgColor: CColors.rBrown.withValues(
+                        alpha: .2,
+                      ),
+                      containerWidth: CHelperFunctions.screenWidth() * .855,
+                      displayTrailingWidget: true,
+                      icon: Iconsax.user_edit,
+                      leadingWidget: IconButton(
+                        icon: InkWell(
+                          onTap: () {},
+                          child: Icon(
+                            Icons.monetization_on,
+                            color: CColors.rBrown,
+                            size: CSizes.iconMd,
+                          ),
+                        ),
+                        onPressed: () {},
+                      ),
+                      onTap: () {},
+                      subTitleWidget: CRoundedContainer(
+                        bgColor: CColors.transparent,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'complete:',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelMedium!
+                                      .apply(
+                                        fontSizeFactor: 1.0,
+                                      ),
+                                ),
+                                Text(
+                                  '$userCurrency.${contactsController.contactCompleteTxnsValue.value}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelMedium!
+                                      .apply(
+                                        fontSizeFactor: 1.0,
+                                      ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'invoiced: ',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelMedium!
+                                      .apply(
+                                        fontSizeFactor: 1.0,
+                                      ),
+                                ),
+                                Text(
+                                  '$userCurrency.${contactsController.contactInvoicedTxnsValue.value}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelMedium!
+                                      .apply(
+                                        fontSizeFactor: 1.0,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      title:
+                          'Txns ($userCurrency${contactsController.contactTotalTxnsValue.value})',
+                      titleMaxLines: 1,
+                      titleStyle: Theme.of(context).textTheme.headlineMedium!
+                          .apply(
+                            color: CColors.rBrown,
+                            fontSizeFactor: .85,
+                          ),
+                      titleTopPadding: 12.0,
+
+                      trailing: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Iconsax.arrow_right,
+                          color: CColors.rBrown,
+                        ),
+                      ),
                       useCustomLeadingWiget: true,
                     ),
 

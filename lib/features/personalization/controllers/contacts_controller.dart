@@ -15,6 +15,7 @@ import 'package:cri_v5/features/personalization/models/contacts_model.dart';
 import 'package:cri_v5/features/personalization/screens/contacts/widgets/contact_details/widgets/add_update_contact_form.dart';
 import 'package:cri_v5/features/store/controllers/inv_controller.dart';
 import 'package:cri_v5/features/store/controllers/nav_menu_controller.dart';
+import 'package:cri_v5/features/store/controllers/txns_controller.dart';
 import 'package:cri_v5/nav_menu.dart';
 import 'package:cri_v5/utils/constants/colors.dart';
 import 'package:cri_v5/utils/constants/sizes.dart';
@@ -61,6 +62,10 @@ class CContactsController extends GetxController {
   final RxBool processingContactsSync = false.obs;
   final RxBool undoTrashBtnPressed = false.obs;
 
+  final RxDouble contactTotalTxnsValue = 0.0.obs;
+  final RxDouble contactCompleteTxnsValue = 0.0.obs;
+  final RxDouble contactInvoicedTxnsValue = 0.0.obs;
+
   final RxList<CContactsDelModel> cloudDelContacts = <CContactsDelModel>[].obs;
 
   final RxList<CContactsModel> allCloudContacts = <CContactsModel>[].obs;
@@ -87,6 +92,8 @@ class CContactsController extends GetxController {
   final RxMap groupedContacts = {}.obs;
 
   final contactsSearchFieldController = TextEditingController();
+
+  final txnsController = Get.put(CTxnsController());
 
   @override
   void onInit() async {
@@ -2026,6 +2033,90 @@ class CContactsController extends GetxController {
     }
   }
 
+  /// -- summarize a contact item's transactional data --
+  void summarizeContactTxns(
+    String contactName,
+    String contactPhone,
+    String contactEmail,
+  ) {
+    try {
+      var contactTotalTxns = txnsController.sales
+          .where(
+            (sale) =>
+                sale.customerName.toLowerCase().contains(
+                  contactName.toLowerCase(),
+                ) &&
+                (sale.customerContacts.toLowerCase().contains(
+                      contactPhone.toLowerCase(),
+                    ) ||
+                    sale.customerContacts.toLowerCase().contains(
+                      contactEmail.toLowerCase(),
+                    )),
+          )
+          .toList();
+      contactTotalTxnsValue.value = contactTotalTxns.fold(
+        0.0,
+        (sum, sale) => sum + (sale.quantity * sale.unitSellingPrice),
+      );
+
+      var contactCompleteTxns = txnsController.txns
+          .where(
+            (txn) =>
+                txn.customerName.toLowerCase().contains(
+                  contactName.toLowerCase(),
+                ) &&
+                (txn.customerContacts.toLowerCase().contains(
+                      contactPhone.toLowerCase(),
+                    ) ||
+                    txn.customerContacts.toLowerCase().contains(
+                      contactEmail.toLowerCase(),
+                    )) &&
+                txn.txnStatus.toLowerCase() != 'invoiced',
+          )
+          .toList();
+
+      contactCompleteTxnsValue.value = contactCompleteTxns.fold(
+        0.0,
+        (sum, sale) => sum + sale.totalAmount,
+      );
+
+      var contactInvoicedTxns = txnsController.invoices
+          .where(
+            (credit) =>
+                credit.customerName.toLowerCase().contains(
+                  contactName.toLowerCase(),
+                ) &&
+                (credit.customerContacts.toLowerCase().contains(
+                      contactPhone.toLowerCase(),
+                    ) ||
+                    credit.customerContacts.toLowerCase().contains(
+                      contactEmail.toLowerCase(),
+                    )),
+          )
+          .toList();
+
+      contactInvoicedTxnsValue.value = contactInvoicedTxns.fold(
+        0.0,
+        (sum, credit) => sum + (credit.totalAmount - credit.amountIssued),
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        CPopupSnackBar.errorSnackBar(
+          message: 'error summarizing contact\'s transactional data: $e',
+          title: 'error summarizing contact\'s transactional data!',
+        );
+      } else {
+        CPopupSnackBar.errorSnackBar(
+          message:
+              'An unknown error occurred while summarizing contact\'s transactional data! Please try again later...',
+          title: 'Error summarizing contact\'s transactional data!',
+        );
+      }
+      rethrow;
+    }
+  }
+
+  /// -- reset contact form fields --
   void resetFields() {
     contactCountryCode.value = 'KE';
 
