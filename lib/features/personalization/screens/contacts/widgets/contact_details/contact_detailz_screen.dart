@@ -459,7 +459,7 @@ class CContactDetailsScreen extends StatelessWidget {
                           child: Icon(
                             Icons.monetization_on,
                             color: CColors.rBrown,
-                            size: CSizes.iconMd,
+                            //size: CSizes.iconMd,
                           ),
                         ),
                         onPressed: () {},
@@ -467,60 +467,20 @@ class CContactDetailsScreen extends StatelessWidget {
                       onTap: () {},
                       subTitleWidget: CRoundedContainer(
                         bgColor: CColors.transparent,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'complete:',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelMedium!
-                                      .apply(
-                                        fontSizeFactor: 1.0,
-                                      ),
-                                ),
-                                Text(
-                                  '$userCurrency.${contactsController.contactCompleteTxnsValue.value}',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelMedium!
-                                      .apply(
-                                        fontSizeFactor: 1.0,
-                                      ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'invoiced: ',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelMedium!
-                                      .apply(
-                                        fontSizeFactor: 1.0,
-                                      ),
-                                ),
-                                Text(
-                                  '$userCurrency.${contactsController.contactInvoicedTxnsValue.value}',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelMedium!
-                                      .apply(
-                                        fontSizeFactor: 1.0,
-                                      ),
-                                ),
-                              ],
-                            ),
-                          ],
+                        padding: const EdgeInsets.only(
+                          bottom: 10.0,
+                        ),
+                        child: Text(
+                          'credit: $userCurrency.${contactsController.contactInvoicedTxnsValue.value}',
+                          style: Theme.of(context).textTheme.labelMedium!.apply(
+                            color: isDarkTheme ? CColors.white : CColors.rBrown,
+                            fontSizeFactor: .9,
+                            fontStyle: FontStyle.italic,
+                          ),
                         ),
                       ),
                       title:
-                          'Txns ($userCurrency${contactsController.contactTotalTxnsValue.value})',
+                          'Txns - $userCurrency${contactsController.contactTotalTxnsValue.value}',
                       titleMaxLines: 1,
                       titleStyle: Theme.of(context).textTheme.headlineMedium!
                           .apply(
