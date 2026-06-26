@@ -91,7 +91,7 @@ class CTxnsController extends GetxController {
   final RxDouble moneyCollected = 0.0.obs;
   final RxDouble netProfit = 0.0.obs;
   final RxDouble onTheHauzSales = 0.0.obs;
-  final RxDouble totalProfit = 0.0.obs;
+  final RxDouble gProfit = 0.0.obs;
 
   final dateRangeFieldController = TextEditingController();
   final txtAmountIssued = TextEditingController();
@@ -1519,12 +1519,12 @@ class CTxnsController extends GetxController {
           );
 
       // -- compute gross profit --
-      totalProfit.value = grossRevenue.value - costOfSales.value;
+      gProfit.value = grossRevenue.value - costOfSales.value;
 
       // -- compute net profit --
       // -- TODO: hatuna discounts na other expenses as yet --
       netProfit.value =
-          totalProfit.value - onTheHauzSales.value - invoicesValue.value;
+          gProfit.value - onTheHauzSales.value - invoicesValue.value;
 
       await fetchTopSellersFromSales();
 
@@ -1604,16 +1604,18 @@ class CTxnsController extends GetxController {
             (sum, sale) => sum + (sale.unitSellingPrice * sale.quantity),
           );
 
-      // -- compute value of items sold on credit --
-      // invoicesValue.value = filteredSales
-      //     .where((sale) => sale.txnStatus.toLowerCase().contains('invoiced'))
-      //     .fold(
-      //       0.0,
-      //       (sum, credit) =>
-      //           sum +
-      //           ((credit.unitSellingPrice * credit.quantity) -
-      //               credit.amountIssued),
-      //     );
+      // -- compute on the house sales for selected period --
+      onTheHauzSales.value = filteredSales
+          .where(
+            (sale) => sale.paymentMethod.toLowerCase().contains(
+              'On the house'.toLowerCase(),
+            ),
+          )
+          .fold(
+            0.0,
+            (sum, sale) => sum + (sale.unitSellingPrice * sale.quantity),
+          );
+
       invoicesValue.value = filteredInvoices.fold(
         0.0,
         (sum, credit) =>
@@ -1629,7 +1631,12 @@ class CTxnsController extends GetxController {
       grossRevenue.value = tRevenue;
 
       // -- compute gross profit --
-      totalProfit.value = grossRevenue.value - costOfSales.value;
+      gProfit.value = grossRevenue.value - costOfSales.value;
+
+      // -- compute net profit --
+      // TODO: kumbuka bado tunahitaji expenses and discounts data
+      var nProfit = gProfit.value - onTheHauzSales.value - invoicesValue.value;
+      netProfit.value = nProfit;
 
       // -- stop loader --
       isLoading.value = false;

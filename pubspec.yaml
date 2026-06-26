@@ -147,7 +147,7 @@ dependencies:
   flutter_slidable: any
   draggable_expandable_fab: any
   flutter_layout_grid: any
-
+  flutter_contacts: ^2.2.2
   number_flow: any
   flutter_number_flow: any
 

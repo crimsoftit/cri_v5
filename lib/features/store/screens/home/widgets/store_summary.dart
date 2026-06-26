@@ -49,7 +49,7 @@ class CStoreSummary extends StatelessWidget {
                   CStoreSummaryCard(
                     iconData: Iconsax.money_tick,
                     subTitleTxt: 'g. profit($userCurrency)',
-                    titleTxt: txnsController.totalProfit.value.toStringAsFixed(
+                    titleTxt: txnsController.gProfit.value.toStringAsFixed(
                       1,
                     ),
                   ),
